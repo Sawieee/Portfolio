@@ -22,10 +22,10 @@ export const portfolioData = {
       category: "Frontend",
       items: [
         "React.js",
-        "Next.js",
+        "HTML",
         "TypeScript",
         "Tailwind CSS",
-        "Vue.js",
+        "Dart",
       ],
     },
     {
@@ -115,7 +115,7 @@ export const portfolioData = {
     },
     {
       title: "Online Assessment Monitoring with Behavioral Analysis and Object Detection using Computer Vision Enabled Cameras",
-      category: "System",
+      category: "Hybrid",
       description: "A dual-modal computer vision system that combines smartphone object detection and head pose tracking to provide automated, risk-based decision support for online exam proctoring",
       image: "/projects/project-3.png",
       tags: ["Python", "Computer Vision", "MediaPipe Face Mesh", "Faster R-CNN", "Firebase"],

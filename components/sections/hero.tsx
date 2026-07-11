@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { ArrowRight, GitBranch, Share2, Mail, Download } from 'lucide-react';
+import { ArrowRight, GitBranch, Share2, Mail, Download, Facebook } from 'lucide-react';
 import { portfolioData } from '@/lib/portfolio-data';
 import { GlowButton } from '@/components/ui/glow-button';
 
@@ -125,25 +125,20 @@ export function Hero() {
               ))}
             </motion.div>
 
-            {/* CTA Buttons */}
-            <motion.div
-              className="flex flex-wrap gap-4 pt-4"
-              variants={itemVariants}
-            >
-              <a href="#contact">
-                <GlowButton className="group">
-                  <span className="flex items-center gap-2">
-                    Let&apos;s talk
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </GlowButton>
-              </a>
-              
-              <button className="px-6 py-3 border-2 border-cyan-400/50 text-cyan-400 rounded-lg hover:bg-cyan-400/10 transition-all duration-300 font-medium flex items-center gap-2">
-                <Download className="w-4 h-4" />
-                Resume
-              </button>
-            </motion.div>
+{/* CTA Buttons */}
+<motion.div
+  className="flex flex-wrap gap-4 pt-4"
+  variants={itemVariants}
+>
+  <a href="#contact">
+    <GlowButton className="group">
+      <span className="flex items-center gap-2">
+        Let&apos;s talk
+        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+      </span>
+    </GlowButton>
+  </a>
+</motion.div>
 
             {/* Social Links */}
             <motion.div
@@ -161,7 +156,7 @@ export function Hero() {
                 >
                   {social.icon === 'Github' && <GitBranch className="w-5 h-5" />}
                   {social.icon === 'Linkedin' && <Share2 className="w-5 h-5" />}
-                  {social.icon === 'Twitter' && <ArrowRight className="w-5 h-5" />}
+                  {social.icon === 'Facebook' && <ArrowRight className="w-5 h-5" />}
                   {social.icon === 'Mail' && <Mail className="w-5 h-5" />}
                 </a>
               ))}
@@ -190,7 +185,7 @@ export function Hero() {
                 src={portfolioData.profile.photo}
                 alt={portfolioData.profile.name}
                 fill
-                className="object-cover z-10 relative"
+                className="object-cover object-[center_30%] z-10 relative"
                 priority
               />
 

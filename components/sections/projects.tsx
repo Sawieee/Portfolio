@@ -10,7 +10,7 @@ import { portfolioData } from '@/lib/portfolio-data';
 export function Projects() {
   const [filter, setFilter] = useState<string | null>(null);
 
-  const categories = ['Web App', 'Mobile App', 'Design'];
+  const categories = ['Web App', 'Mobile App', 'Hybrid'];
 
   const filteredProjects = filter
     ? portfolioData.projects.filter((p) => p.category === filter)

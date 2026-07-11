@@ -51,7 +51,7 @@ export function About() {
                   src={portfolioData.profile.photo}
                   alt={portfolioData.profile.name}
                   fill
-                  className="object-cover"
+                  className="object-cover object-[center_30%]"
                   priority
                 />
               </div>
