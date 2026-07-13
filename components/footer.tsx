@@ -82,7 +82,7 @@ export function Footer() {
               &copy; {currentYear} {portfolioData.profile.name}. All rights reserved.
             </p>
             <p className="text-foreground/60 flex items-center gap-2">
-              Crafted with <Heart className="w-4 h-4 text-cyan-400" /> using Next.js
+              Crafted with <Heart className="w-4 h-4 text-cyan-400" /> using Next.js and tailwind css
             </p>
           </div>
         </div>
