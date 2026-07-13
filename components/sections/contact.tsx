@@ -15,6 +15,11 @@ export function Contact() {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
+
+  // Replace this with your own Formspree endpoint from formspree.io
+  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mrengead';
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -25,15 +30,33 @@ export function Contact() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically send the form data to a backend
-    console.log('Form submitted:', formData);
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({ name: '', email: '', message: '' });
-    }, 3000);
+    setIsSubmitting(true);
+    setError('');
+
+    try {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setSubmitted(true);
+        setFormData({ name: '', email: '', message: '' });
+        setTimeout(() => setSubmitted(false), 3000);
+      } else {
+        setError('Something went wrong. Please try again or email me directly.');
+      }
+    } catch {
+      setError('Something went wrong. Please try again or email me directly.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const containerVariants = {
@@ -48,6 +71,10 @@ export function Contact() {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
   };
+
+  const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    portfolioData.profile.location
+  )}`;
 
   return (
     <section
@@ -75,37 +102,53 @@ export function Contact() {
         <div className="grid md:grid-cols-3 gap-8 mb-12">
           {/* Contact Info */}
           <motion.div variants={itemVariants}>
-            <GlassCard className="h-full">
-              <Mail className="w-8 h-8 text-cyan-400 mb-4" />
-              <h3 className="text-xl font-bold text-foreground mb-2">Email</h3>
-              <a
-                href={`mailto:${portfolioData.profile.email}`}
-                className="text-cyan-400 hover:text-cyan-300 transition-colors"
-              >
-                {portfolioData.profile.email}
-              </a>
-            </GlassCard>
+            <a
+              href={`mailto:${portfolioData.profile.email}`}
+              className="block h-full"
+              aria-label="Send an email"
+            >
+              <GlassCard className="h-full cursor-pointer hover:border-cyan-400/60 transition-all duration-300 hover:-translate-y-1">
+                <Mail className="w-8 h-8 text-cyan-400 mb-4" />
+                <h3 className="text-xl font-bold text-foreground mb-2">Email</h3>
+                <p className="text-cyan-400 hover:text-cyan-300 transition-colors">
+                  {portfolioData.profile.email}
+                </p>
+              </GlassCard>
+            </a>
           </motion.div>
 
           <motion.div variants={itemVariants}>
-            <GlassCard className="h-full">
-              <Phone className="w-8 h-8 text-purple-400 mb-4" />
-              <h3 className="text-xl font-bold text-foreground mb-2">Phone</h3>
-              <a
-                href={`tel:${portfolioData.profile.phone}`}
-                className="text-purple-400 hover:text-purple-300 transition-colors"
-              >
-                {portfolioData.profile.phone}
-              </a>
-            </GlassCard>
+            <a
+              href={`tel:${portfolioData.profile.phone}`}
+              className="block h-full"
+              aria-label="Call phone number"
+            >
+              <GlassCard className="h-full cursor-pointer hover:border-purple-400/60 transition-all duration-300 hover:-translate-y-1">
+                <Phone className="w-8 h-8 text-purple-400 mb-4" />
+                <h3 className="text-xl font-bold text-foreground mb-2">Phone</h3>
+                <p className="text-purple-400 hover:text-purple-300 transition-colors">
+                  {portfolioData.profile.phone}
+                </p>
+              </GlassCard>
+            </a>
           </motion.div>
 
           <motion.div variants={itemVariants}>
-            <GlassCard className="h-full">
-              <MapPin className="w-8 h-8 text-cyan-400 mb-4" />
-              <h3 className="text-xl font-bold text-foreground mb-2">Location</h3>
-              <p className="text-foreground/70">{portfolioData.profile.location}</p>
-            </GlassCard>
+            <a
+              href={googleMapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block h-full"
+              aria-label="View location on Google Maps"
+            >
+              <GlassCard className="h-full cursor-pointer hover:border-cyan-400/60 transition-all duration-300 hover:-translate-y-1">
+                <MapPin className="w-8 h-8 text-cyan-400 mb-4" />
+                <h3 className="text-xl font-bold text-foreground mb-2">Location</h3>
+                <p className="text-foreground/70 hover:text-cyan-300 transition-colors">
+                  {portfolioData.profile.location}
+                </p>
+              </GlassCard>
+            </a>
           </motion.div>
         </div>
 
@@ -170,13 +213,21 @@ export function Contact() {
                 />
               </div>
 
+              {error && (
+                <p className="text-red-400 text-sm text-center">{error}</p>
+              )}
+
               <div className="flex gap-4">
                 <GlowButton
                   size="lg"
                   className="flex-1"
-                  disabled={submitted}
+                  disabled={submitted || isSubmitting}
                 >
-                  {submitted ? 'Message Sent! 🎉' : 'Send Message'}
+                  {submitted
+                    ? 'Message Sent! 🎉'
+                    : isSubmitting
+                    ? 'Sending...'
+                    : 'Send Message'}
                 </GlowButton>
               </div>
             </form>

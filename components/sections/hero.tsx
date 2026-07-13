@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { ArrowRight, GitBranch, Share2, Mail, Download, Facebook } from 'lucide-react';
+import { ArrowRight, GitBranch, Share2, Mail, Send, Copy, Check } from 'lucide-react';
 import { portfolioData } from '@/lib/portfolio-data';
 import { GlowButton } from '@/components/ui/glow-button';
 
@@ -21,6 +21,16 @@ const AnimatedBackground = () => {
 };
 
 export function Hero() {
+  const [showEmailMenu, setShowEmailMenu] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const emailAddress = portfolioData.social.find((s) => s.platform === 'Email')?.url || '';
+
+  const handleCopyEmail = async () => {
+    await navigator.clipboard.writeText(emailAddress);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -126,41 +136,76 @@ export function Hero() {
               ))}
             </motion.div>
 
-{/* CTA Buttons */}
-<motion.div
-  className="flex flex-wrap gap-4 pt-4"
-  variants={itemVariants}
->
-  <a href="#contact">
-    <GlowButton className="group">
-      <span className="flex items-center gap-2">
-        Let&apos;s talk
-        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-      </span>
-    </GlowButton>
-  </a>
-</motion.div>
+            {/* CTA Buttons */}
+            <motion.div
+              className="flex flex-wrap gap-4 pt-4"
+              variants={itemVariants}
+            >
+              <a href="#contact">
+                <GlowButton className="group">
+                  <span className="flex items-center gap-2">
+                    Let&apos;s talk
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </GlowButton>
+              </a>
+            </motion.div>
 
             {/* Social Links */}
             <motion.div
-              className="flex gap-4 pt-4"
+              className="flex gap-4 pt-4 relative"
               variants={itemVariants}
             >
-              {portfolioData.social.map((social) => (
-                <a
-                  key={social.platform}
-                  href={social.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 flex items-center justify-center rounded-full bg-background/40 border border-cyan-400/30 text-foreground/60 hover:text-cyan-400 hover:border-cyan-400 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-400/20"
-                  aria-label={social.platform}
-                >
-                  {social.icon === 'Github' && <GitBranch className="w-5 h-5" />}
-                  {social.icon === 'Linkedin' && <Share2 className="w-5 h-5" />}
-                  {social.icon === 'Facebook' && <ArrowRight className="w-5 h-5" />}
-                  {social.icon === 'Mail' && <Mail className="w-5 h-5" />}
-                </a>
-              ))}
+              {portfolioData.social.map((social) => {
+                if (social.icon === 'Mail') {
+                  return (
+                    <div key={social.platform} className="relative">
+                      <button
+                        onClick={() => setShowEmailMenu((prev) => !prev)}
+                        className="w-10 h-10 flex items-center justify-center rounded-full bg-background/40 border border-cyan-400/30 text-foreground/60 hover:text-cyan-400 hover:border-cyan-400 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-400/20"
+                        aria-label="Email options"
+                      >
+                        <Mail className="w-5 h-5" />
+                      </button>
+
+                      {showEmailMenu && (
+                        <div className="absolute top-12 right-0 w-64 bg-background border border-cyan-400/30 rounded-lg shadow-xl shadow-cyan-400/10 overflow-hidden z-50">
+                          <button
+                            onClick={handleCopyEmail}
+                            className="w-full flex items-center gap-3 px-4 py-3 text-sm text-foreground/80 hover:bg-cyan-400/10 hover:text-cyan-400 transition-colors text-left"
+                          >
+                            {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                            {copied ? 'Copied!' : emailAddress}
+                          </button>
+                          <a
+                            href={`mailto:${emailAddress}`}
+                            onClick={() => setShowEmailMenu(false)}
+                            className="w-full flex items-center gap-3 px-4 py-3 text-sm text-foreground/80 hover:bg-cyan-400/10 hover:text-cyan-400 transition-colors border-t border-white/10"
+                          >
+                            <Send className="w-4 h-4" />
+                            Send an email
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+
+                return (
+                  <a
+                    key={social.platform}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 flex items-center justify-center rounded-full bg-background/40 border border-cyan-400/30 text-foreground/60 hover:text-cyan-400 hover:border-cyan-400 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-400/20"
+                    aria-label={social.platform}
+                  >
+                    {social.icon === 'Github' && <GitBranch className="w-5 h-5" />}
+                    {social.icon === 'Linkedin' && <Share2 className="w-5 h-5" />}
+                    {social.icon === 'Facebook' && <ArrowRight className="w-5 h-5" />}
+                  </a>
+                );
+              })}
             </motion.div>
           </motion.div>
 
