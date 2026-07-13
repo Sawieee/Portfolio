@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ArrowRight, GitBranch, Share2, Mail, Download, Facebook } from 'lucide-react';

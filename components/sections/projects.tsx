@@ -136,7 +136,7 @@ export function Projects() {
                     View
                   </a>
                   <a
-                    href={project.link}
+                    href={project.codeLink}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex-1 flex items-center justify-center gap-2 py-2 px-3 bg-purple-500/10 text-purple-400 rounded hover:bg-purple-500/20 transition-all duration-300 text-sm font-semibold"

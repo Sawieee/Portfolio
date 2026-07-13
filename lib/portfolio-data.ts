@@ -101,7 +101,8 @@ export const portfolioData = {
       description: "A smart campus navigation app that helps users easily find any building or location within Holy Angel University",
       image: "/projects/project-1.png",
       tags: ["Next.js", "React", "Node.js", "AI", "API"],
-      link: "https://github.com/marvinnilayan/hau-map",
+      link: "https://github.com/KCT1234/Finals_ADET.git",
+      codeLink: "https://github.com/KCT1234/Finals_ADET.git",
       featured: true,
     },
     {
@@ -110,7 +111,8 @@ export const portfolioData = {
       description: "A website that can help other people for their mental health awareness and can help them to be aware of their mental health condition.",
       image: "/projects/project-2.png",
       tags: ["React", "Firebase", "Node.js"],
-      link: "https://github.com/marvinnilayan/u-companion",
+      link: "https://github.com/Sawieeee/mental-health-website.git",
+      codeLink: "https://github.com/Sawieeee/mental-health-website.git",
       featured: true,
     },
     {
@@ -147,6 +149,6 @@ export const portfolioData = {
     { platform: "GitHub", url: "https://github.com/Sawieee", icon: "Github" },
     { platform: "LinkedIn", url: "https://www.linkedin.com/in/marvin-jay-nilayan-817275397", icon: "Linkedin" },
     { platform: "Facebook", url: "https://www.facebook.com/sawieqt", icon: "Facebook" },
-    { platform: "Email", url: "mjcn1130@gmail.com", icon: "Mail" },
+    { platform: "Email", url: "mailto:mjcn1130@gmail.com", icon: "Mail" },
   ],
 };
